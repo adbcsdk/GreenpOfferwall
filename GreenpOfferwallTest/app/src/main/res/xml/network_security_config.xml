@@ -2,5 +2,7 @@
 <network-security-config>
     <domain-config cleartextTrafficPermitted="true">
         <domain includeSubdomains="true">greenp.kr</domain>
+        <domain includeSubdomains="true">decaffeine.net</domain>
+        <domain includeSubdomains="true">adboost.co.kr</domain>
     </domain-config>
 </network-security-config>

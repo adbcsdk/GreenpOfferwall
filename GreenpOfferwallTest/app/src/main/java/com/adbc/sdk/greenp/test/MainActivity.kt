@@ -1,10 +1,10 @@
 package com.adbc.sdk.greenp.test
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.commit
 import com.adbc.sdk.greenp.test.databinding.ActivityMainBinding
 import com.adbc.sdk.greenp.v3.GreenpReward
 import com.adbc.sdk.greenp.v3.OfferwallBuilder
@@ -29,6 +29,8 @@ class MainActivity: FragmentActivity(), View.OnClickListener {
         binding.showPopup.setOnClickListener(this)
         binding.req320x50.setOnClickListener(this)
         binding.reqMini.setOnClickListener(this)
+        binding.reqFragment.setOnClickListener(this)
+
         initOfferwall()
     }
 
@@ -42,23 +44,34 @@ class MainActivity: FragmentActivity(), View.OnClickListener {
         when (view.id) {
 
             binding.showOfferwall.id ->
+
                 GreenpReward.getOfferwallBuilder().showOfferwall(this@MainActivity)
 
             binding.showPopup.id ->
                 GreenpReward.getOfferwallBuilder().requestBanner(this@MainActivity,
                     OfferwallBuilder.BANNER_POPUP) { result, msg, banner ->
+
                     if (result) {
+
                         banner.showPopupBanner()
+
                     } else {
                         Toast.makeText(this@MainActivity, msg, Toast.LENGTH_SHORT).show()
                     }
                 }
 
             binding.req320x50.id ->
+
                 GreenpReward.getOfferwallBuilder().requestBanner(this@MainActivity,
                     OfferwallBuilder.BANNER_320x50) { result, msg, banner ->
+
                     if (result) {
+
+                        if (binding.bannerWrapper.childCount > 0) {
+                            binding.bannerWrapper.removeAllViews()
+                        }
                         binding.bannerWrapper.addView(banner.view)
+
                     } else {
                         Toast.makeText(this@MainActivity, msg, Toast.LENGTH_SHORT).show()
                     }
@@ -66,8 +79,36 @@ class MainActivity: FragmentActivity(), View.OnClickListener {
 
             binding.reqMini.id -> GreenpReward.getOfferwallBuilder().requestBanner(this@MainActivity,
                 OfferwallBuilder.BANNER_MINI) { result, msg, banner ->
+
                     if (result) {
+
+                        if (binding.container.childCount > 0) {
+                            binding.container.removeAllViews()
+                        }
                         binding.container.addView(banner.view)
+
+                    } else {
+                        Toast.makeText(this@MainActivity, msg, Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+            binding.reqFragment.id -> GreenpReward.getOfferwallBuilder().requestBanner(this@MainActivity,
+                OfferwallBuilder.BANNER_FRAGMENT) { result, msg, banner ->
+
+                    if (result) {
+
+                        if (binding.container.childCount > 0) {
+                            binding.container.removeAllViews()
+                        }
+
+                        val fragment = banner.fragment ?: return@requestBanner
+
+                        supportFragmentManager.commit {
+                            replace(R.id.container, fragment)
+                            setReorderingAllowed(true)
+                            addToBackStack("")
+                        }
+
                     } else {
                         Toast.makeText(this@MainActivity, msg, Toast.LENGTH_SHORT).show()
                     }

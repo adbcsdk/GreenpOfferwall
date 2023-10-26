@@ -1,6 +1,9 @@
 package com.adbc.sdk.greenp.test;
 
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -36,6 +39,7 @@ public class MainActivity_Java extends FragmentActivity implements View.OnClickL
         (findViewById(R.id.show_popup)).setOnClickListener(this);
         (findViewById(R.id.req_320x50)).setOnClickListener(this);
         (findViewById(R.id.req_mini)).setOnClickListener(this);
+        (findViewById(R.id.req_fragment)).setOnClickListener(this);
 
         initOfferwall();
     }
@@ -51,52 +55,84 @@ public class MainActivity_Java extends FragmentActivity implements View.OnClickL
         builder.setAppUniqKey(appUniqKey);
         builder.setUseGreenpFontStyle(true); // 그린피 폰트 사용여부 ( default : false )
 
-        switch (view.getId()) {
+        if(view.getId() == R.id.show_offerwall) {
 
-            case R.id.show_offerwall:
-                builder.showOfferwall(MainActivity_Java.this);
-                break;
+            builder.showOfferwall(MainActivity_Java.this);
 
-            case R.id.show_popup:
-                builder.requestBanner(MainActivity_Java.this, OfferwallBuilder.BANNER_POPUP, new OfferwallBuilder.OnRequestBannerListener() {
-                    @Override
-                    public void onResult(boolean b, String s, GreenpBanner banner) {
-                        if(b) {
-                            banner.showPopupBanner();
-                        } else {
-                            Toast.makeText(MainActivity_Java.this, s, Toast.LENGTH_SHORT).show();
-                        }
+        } else if(view.getId() == R.id.show_popup) {
+
+            builder.requestBanner(MainActivity_Java.this, OfferwallBuilder.BANNER_POPUP, new OfferwallBuilder.OnRequestBannerListener() {
+                @Override
+                public void onResult(boolean b, String s, GreenpBanner banner) {
+                    if(b) {
+                        banner.showPopupBanner();
+                    } else {
+                        Toast.makeText(MainActivity_Java.this, s, Toast.LENGTH_SHORT).show();
                     }
-                });
-                break;
+                }
+            });
 
-            case R.id.req_320x50:
+        } else if(view.getId() == R.id.req_320x50) {
 
-                builder.requestBanner(MainActivity_Java.this, OfferwallBuilder.BANNER_320x50, new OfferwallBuilder.OnRequestBannerListener() {
-                    @Override
-                    public void onResult(boolean b, String s, GreenpBanner banner) {
-                        if(b) {
-                            bannerWrapper.addView(banner.getView());
-                        } else {
-                            Toast.makeText(MainActivity_Java.this, s, Toast.LENGTH_SHORT).show();
+            builder.requestBanner(MainActivity_Java.this, OfferwallBuilder.BANNER_320x50, new OfferwallBuilder.OnRequestBannerListener() {
+                @Override
+                public void onResult(boolean b, String s, GreenpBanner banner) {
+                    if(b) {
+
+                        if(bannerWrapper.getChildCount() > 0) {
+                            bannerWrapper.removeAllViews();
                         }
-                    }
-                });
-                break;
-            case R.id.req_mini:
 
-                builder.requestBanner(MainActivity_Java.this, OfferwallBuilder.BANNER_MINI, new OfferwallBuilder.OnRequestBannerListener() {
-                    @Override
-                    public void onResult(boolean b, String s, GreenpBanner banner) {
-                        if(b) {
-                            miniBannerWrapper.addView(banner.getView());
-                        } else {
-                            Toast.makeText(MainActivity_Java.this, s, Toast.LENGTH_SHORT).show();
+                        bannerWrapper.addView(banner.getView());
+                    } else {
+                        Toast.makeText(MainActivity_Java.this, s, Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+
+        } else if(view.getId() == R.id.req_mini) {
+
+            builder.requestBanner(MainActivity_Java.this, OfferwallBuilder.BANNER_MINI, new OfferwallBuilder.OnRequestBannerListener() {
+                @Override
+                public void onResult(boolean b, String s, GreenpBanner banner) {
+                    if(b) {
+
+                        if(miniBannerWrapper.getChildCount() > 0) {
+                            miniBannerWrapper.removeAllViews();
                         }
-                    }
-                });
 
-                break;
+                        miniBannerWrapper.addView(banner.getView());
+                    } else {
+                        Toast.makeText(MainActivity_Java.this, s, Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+
+        } else if(view.getId() == R.id.req_fragment) {
+
+            builder.requestBanner(MainActivity_Java.this, OfferwallBuilder.BANNER_FRAGMENT, new OfferwallBuilder.OnRequestBannerListener() {
+                @Override
+                public void onResult(boolean b, String s, GreenpBanner banner) {
+                    if(b) {
+
+                        if(miniBannerWrapper.getChildCount() > 0) {
+                            miniBannerWrapper.removeAllViews();
+                        }
+
+                        Fragment fragment = banner.getFragment();
+                        if(fragment == null)
+                            return;
+
+                        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                        fragmentTransaction.replace(R.id.container, fragment, "");
+                        fragmentTransaction.addToBackStack(null);
+                        fragmentTransaction.commitAllowingStateLoss();
+
+                    } else {
+                        Toast.makeText(MainActivity_Java.this, s, Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
         }
     }
 
