@@ -58,7 +58,7 @@ dependencies {
 
     implementation 'com.google.android.gms:play-services-ads-identifier:18.0.1'
 
-    implementation 'com.adbc.sdk.greenp.v3:greenp_v3:3.1.0@aar'
+    implementation 'com.adbc.sdk.greenp.v3:greenp_v3:3.1.1@aar'
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
