@@ -1,4 +1,7 @@
-# GreenpOfferwall v3 SDK For Android
-SDK 최신버전은 3.1.1 입니다.
-## 지원
-- [SDK 연동 가이드](https://github.com/adbcsdk/GreenpOfferwall/wiki/Greenp-Offerwall-v3-%EC%97%B0%EB%8F%99%EA%B0%80%EC%9D%B4%EB%93%9C)
+**※ 이 페이지는 더 이상 최신버전을 지원하지 않습니다! ※**
+
+### 2024.1.11 부터 업데이트 버전 안내는 [신규 Github 페이지](https://github.com/rnd-adforus/GreenpSDK_Android) 로 이전되었습니다. 
+
+
+#### [SDK 버전 3.1.2 이전 (구)연동가이드 > 이동](https://github.com/adbcsdk/GreenpOfferwall/wiki/Greenp-Offerwall-v3-%EC%97%B0%EB%8F%99%EA%B0%80%EC%9D%B4%EB%93%9C)  
+#### [SDK 버전 3.1.2 이후 (신)연동가이드 > 이동](https://github.com/rnd-adforus/GreenpSDK_Android/wiki/Greenp-Offerwall-Android-v3-%EC%97%B0%EB%8F%99%EA%B0%80%EC%9D%B4%EB%93%9C) 
